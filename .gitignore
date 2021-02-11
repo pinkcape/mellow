@@ -1,0 +1,17 @@
+# ignore nodejs modules
+node_modules
+
+# ignore secure files
+.env
+
+# ignore dist files
+dist
+
+# ignore logs file
+logs
+
+# ignore lavalink file
+bin/Lavalink.jar
+
+# ignore application.yml config
+application.yml
