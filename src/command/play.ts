@@ -8,6 +8,7 @@ const timeout = 6000;
 
 export default {
   name: "play",
+  description: "play audio in voice channel & adding audio to the queue list",
   execute: (message, args) => {
     // send a message
     message

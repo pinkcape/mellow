@@ -7,6 +7,7 @@ let timeout = 6000;
 
 export default {
   name: "skip",
+  description: "skip next audio in the queue list",
   execute: (message, args) => {
     message.reply(i18n.__("processing")).then((msg) => {
       // shortcut for member

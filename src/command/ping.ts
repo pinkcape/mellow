@@ -3,6 +3,7 @@ import i18n from "../util/i18n";
 
 export default {
   name: "ping",
+  description: "return bot response time in ms",
   execute: (message, args) => {
     message.reply("pong?").then((msg) => {
       // calc how much time taken to response

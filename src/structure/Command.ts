@@ -6,5 +6,6 @@ export interface Execute {
 
 export interface Command {
   name: string;
+  description: string;
   execute: Execute;
 }

@@ -7,6 +7,7 @@ let timeout = 6000;
 
 export default {
   name: "vol",
+  description: "manage audio volume",
   execute: (message, args) => {
     message.reply("**processing..**").then((msg) => {
       // shortcut for member
