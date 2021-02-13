@@ -1,6 +1,7 @@
 import { Command } from "../structure/Command";
 import Mellow from "../structure/Mellow";
 import logger from "../util/logger";
+import i18n from "../util/i18n";
 
 let timeout = 6000;
 
@@ -21,7 +22,7 @@ export default {
       if (!channel) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to be in voice`)
+          .edit(i18n.__("please_be_in_voice_channel"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -30,7 +31,7 @@ export default {
       if (voice.deaf) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to undeaf yourself`)
+          .edit(i18n.__("please_undeaf"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -48,7 +49,7 @@ export default {
       if (!player) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but i'm not connected in any channel`)
+          .edit(i18n.__("not_connected"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -57,7 +58,7 @@ export default {
       if (!player.playing) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but you've to play something`)
+          .edit(i18n.__("must_playing"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -68,14 +69,14 @@ export default {
       // if no limit given
       if (!limit) {
         // return alert with current volume
-        return msg.edit(`current volume is %${player.state.volume}`);
+        return msg.edit(`${i18n.__("current_volume")} %${player.state.volume}`);
       }
 
       // check maximum limit
       if (limit > 150) {
         // return alert with maximum volume
         return msg
-          .edit(`volume maximum is 150`)
+          .edit(i18n.__("max_volume"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -84,7 +85,7 @@ export default {
       if (limit < 0) {
         // return alert with minimum volume
         return msg
-          .edit(`volume minimum is 0`)
+          .edit(i18n.__("min_volume"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -92,7 +93,7 @@ export default {
       // when player update volume
       player.once("volume", (volume) => {
         // alert user
-        msg.edit(`${member} set volume to ${volume}`);
+        msg.edit(`${member} ${i18n.__("set_volume")} ${volume}`);
       });
 
       // update volume

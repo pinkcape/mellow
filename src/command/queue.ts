@@ -1,13 +1,14 @@
 import { Command } from "../structure/Command";
 import Mellow from "../structure/Mellow";
 import logger from "../util/logger";
+import i18n from "../util/i18n";
 
 let timeout = 6000;
 
 export default {
   name: "queue",
   execute: (message, args) => {
-    message.reply("**processing..**").then((msg) => {
+    message.reply(i18n.__("processing")).then((msg) => {
       // shortcut for member
       let member = message.member;
 
@@ -21,7 +22,7 @@ export default {
       if (!channel) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to be in voice`)
+          .edit(i18n.__("please_be_in_voice_channel"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -30,7 +31,7 @@ export default {
       if (voice.deaf) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to undeaf yourself`)
+          .edit(i18n.__("please_undeaf"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -48,7 +49,7 @@ export default {
       if (!player) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but i'm not connected in any channel`)
+          .edit(i18n.__("not_connected"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -57,7 +58,7 @@ export default {
       if (!player.playing) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but you've to play something`)
+          .edit(i18n.__("must_playing"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -69,14 +70,17 @@ export default {
       if (list?.length == 0) {
         // alert user
         return msg
-          .edit("queue is empty.")
+          .edit(i18n.__("queue_empty"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
 
       // map & join list queue into string
       let listMessage = list
-        ?.map((t, i) => `${i == 0 ? "Next" : `• ${i}`} : ${t.info.title}`)
+        ?.map(
+          (t, i) =>
+            `${i == 0 ? i18n.__("next_song") : `• ${i}`} : ${t.info.title}`
+        )
         .join("\n");
 
       // return queue list

@@ -3,6 +3,7 @@ import Mellow from "./structure/Mellow";
 import fs from "fs";
 import path from "path";
 import logger from "./util/logger";
+import i18n from "./util/i18n";
 
 // create new client
 const client = new Mellow([
@@ -16,6 +17,12 @@ const client = new Mellow([
 
 // client's prefix
 const prefix = process.env.CLIENT_PREFIX || "?";
+
+// get locale
+let locale = process.env.LOCALE || "en";
+
+// set locale
+i18n.setLocale(locale);
 
 client.on("error", console.error); // log error so no app crush
 

@@ -1,13 +1,14 @@
 import { Command } from "../structure/Command";
 import Mellow from "../structure/Mellow";
 import logger from "../util/logger";
+import i18n from "../util/i18n";
 
 let timeout = 6000;
 
 export default {
   name: "skip",
   execute: (message, args) => {
-    message.reply("**processing..**").then((msg) => {
+    message.reply(i18n.__("processing")).then((msg) => {
       // shortcut for member
       let member = message.member;
 
@@ -21,7 +22,7 @@ export default {
       if (!channel) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to be in voice`)
+          .edit(i18n.__("please_be_in_voice_channel"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -30,7 +31,7 @@ export default {
       if (voice.deaf) {
         // return a message & delete it after timeout
         return msg
-          .edit(`Sorry ${member} but you've to undeaf yourself`)
+          .edit(i18n.__("please_undeaf"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -48,7 +49,7 @@ export default {
       if (!player) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but i'm not connected in any channel`)
+          .edit(i18n.__("not_connected"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -57,7 +58,7 @@ export default {
       if (!player.playing) {
         // alert user
         return msg
-          .edit(`Sorry ${member} but you've to play something`)
+          .edit(i18n.__("must_playing"))
           .then((msg) => msg.delete({ timeout }) && message.delete({ timeout }))
           .catch(logger.error);
       }
@@ -66,7 +67,11 @@ export default {
       player
         .stop()
         .then((isStopped) =>
-          msg.edit(isStopped ? `${member} skipping track` : "failed")
+          msg.edit(
+            isStopped
+              ? `${member} ${i18n.__("user_skipping")}`
+              : i18n.__("failed")
+          )
         )
         .catch(logger.error);
     });

@@ -2,6 +2,7 @@ import { JoinData } from "@lavacord/discord.js";
 import { Command } from "../structure/Command";
 import Mellow from "../structure/Mellow";
 import logger from "../util/logger";
+import i18n from "../util/i18n";
 
 const timeout = 6000;
 
@@ -10,7 +11,7 @@ export default {
   execute: (message, args) => {
     // send a message
     message
-      .reply("**processing..**")
+      .reply(i18n.__("processing"))
       .then((msg) => {
         // shortcut for member
         let member = message.member;
@@ -25,7 +26,7 @@ export default {
         if (!channel) {
           // return a message & delete it after timeout
           return msg
-            .edit(`Sorry ${member} but you've to be in voice`)
+            .edit(i18n.__("please_be_in_voice_channel"))
             .then(
               (msg) => msg.delete({ timeout }) && message.delete({ timeout })
             )
@@ -36,7 +37,7 @@ export default {
         if (voice.deaf) {
           // return a message & delete it after timeout
           return msg
-            .edit(`Sorry ${member} but you've to undeaf yourself`)
+            .edit(i18n.__("please_undeaf"))
             .then(
               (msg) => msg.delete({ timeout }) && message.delete({ timeout })
             )
@@ -56,7 +57,7 @@ export default {
         if (query.startsWith("http")) {
           // return a message & delete it after timeout
           return msg
-            .edit(`Sorry ${member} but url not allowed for security purpose.`)
+            .edit(i18n.__("security_purpose"))
             .then(
               (msg) => msg.delete({ timeout }) && message.delete({ timeout })
             )
@@ -74,7 +75,7 @@ export default {
             if (tracks?.length == 0) {
               // return a message & delete it after timeout
               return msg
-                .edit(`i cannot find ${query}`)
+                .edit(`${i18n.__("can't_find")} ${query}`)
                 .then(
                   (msg) =>
                     msg.delete({ timeout }) && message.delete({ timeout })
@@ -85,7 +86,7 @@ export default {
             let track = tracks!.shift();
 
             // alert user
-            msg.edit(`found ${track!.info.title}`);
+            msg.edit(`${i18n.__("found")} ${track!.info.title}`);
 
             // get player
             let player = client.manager.players.get(guild!.id);
@@ -97,7 +98,9 @@ export default {
               // add track to guild's queue
               queue?.push(track!);
               // return alert
-              return msg.edit(`added **${track!.info.title}**`);
+              return msg.edit(
+                `${i18n.__("added_queue")} **${track!.info.title}**`
+              );
             }
 
             // join data
@@ -111,27 +114,29 @@ export default {
             player = await client.manager.join(data);
 
             // alert user
-            msg.edit(`playing ${track!.info.title}`).then((msg) => {
-              // play track
-              player?.play(track!.track).then((playing) => {
-                // return an alert if failed playing
-                if (!playing) msg.edit(`ERROR 500`);
+            msg
+              .edit(`${i18n.__("playing")} ${track!.info.title}`)
+              .then((msg) => {
+                // play track
+                player?.play(track!.track).then((playing) => {
+                  // return an alert if failed playing
+                  if (!playing) msg.edit(`${i18n.__("error")} 500`);
 
-                // this will manage queue when end
-                player?.on("end", (data) => {
-                  // take first element
-                  let track = queue?.shift();
+                  // this will manage queue when end
+                  player?.on("end", (data) => {
+                    // take first element
+                    let track = queue?.shift();
 
-                  // if element is exists play it
-                  if (track) player?.play(track?.track);
-                  // else destroy player
-                  else player?.removeAllListeners("end") && player.stop();
+                    // if element is exists play it
+                    if (track) player?.play(track?.track);
+                    // else destroy player
+                    else player?.removeAllListeners("end") && player.stop();
+                  });
+
+                  // if error destroy player
+                  player?.once("error", player.destroy);
                 });
-
-                // if error destroy player
-                player?.once("error", player.destroy);
               });
-            });
           })
           .catch(logger.error);
       })
