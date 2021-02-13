@@ -1,0 +1,23 @@
+{
+  "hello": "hello",
+  "time_taken": "time taken",
+  "processing": "**processing..**",
+  "please_be_in_voice_channel": "Sorry, but you've to be in voice",
+  "please_undeaf": "Sorry, but you've to undeaf yourself",
+  "security_purpose.": "Sorry, but url not allowed for security purpose.",
+  "can't_find": "i cannot find",
+  "found": "found",
+  "added_queue": "added to queue",
+  "playing": "playing",
+  "error": "error",
+  "must_playing": "Sorry, but you've to play something",
+  "not_connected": "Sorry, i'm not connected, play something",
+  "queue_empty": "queue is empty",
+  "next_song": "Next song",
+  "user_skipping": "skipping",
+  "failed": "failed",
+  "current_volume": "current volume is",
+  "max_volume": "volume maximum is 150",
+  "min_volume": "volume minimum is 0",
+  "set_volume": "set volme to"
+}
