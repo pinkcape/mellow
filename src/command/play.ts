@@ -14,6 +14,17 @@ export default {
     message
       .reply(i18n.__("processing"))
       .then((msg) => {
+        // if argument is missing
+        if (args.length === 0) {
+          // return a message & delete it after timeout
+          return msg
+            .edit("💡 example. **play rina sawayama snakeskin**")
+            .then(
+              (msg) => msg.delete({ timeout }) && message.delete({ timeout })
+            )
+            .catch(logger.error);
+        }
+
         // shortcut for member
         let member = message.member;
 
