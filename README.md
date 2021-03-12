@@ -20,4 +20,4 @@
 
 ###### note: Lavalink server you must not close
 
-💛
+Made by pinkcape 💛
