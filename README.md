@@ -20,4 +20,4 @@
 
 ###### note: Lavalink server you must not close
 
-> all copyright reserved to danielyafty@gmail.com (pinkcape)
+💛
