@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@lavacord/discord.js": "^0.0.7",
     "chalk": "^4.1.0",
